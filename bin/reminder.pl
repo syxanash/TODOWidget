@@ -15,6 +15,7 @@ Readonly my $LIST_NAME   => 'TODO';
 my $cmd_output;
 my $bin_file = '/usr/local/bin/reminders';
 
+# execute the reminders tool and store the output in a variable
 chomp( $cmd_output = capture( $bin_file . ' show "' . $LIST_NAME .'"') );
 
 # print top separator line
