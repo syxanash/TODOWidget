@@ -3,15 +3,15 @@ a TODO widget for GeekTool which interacts with Apple Reminder app.
 
 ## Install
 
-First modify the script variable `$LIST_NAME` and enter your list name from Reminder or create a new list on your Reminder app called TODO.
+First create a new list in Reminder app called **TODO**. Alternatively replace the value of the variable `$LIST_NAME` with your custom list name which already exists in your app.
 
-Then you need [reminders-cli](https://github.com/keith/reminders-cli) then download [GeekTool](https://www.tynsoe.org/v2/geektool/), I know it's an old and abandoned project but it still does its job.
+Then you need to install [reminders-cli](https://github.com/keith/reminders-cli) and also download [GeekTool](https://www.tynsoe.org/v2/geektool/), I know it's an old and abandoned project but it still does its job.
 
-Create a new **Shell** widget using GeekTool and copy the script in `bin/` directory, inside Command field as shown below:
+Create a new **Shell** widget using GeekTool and copy the script in `bin/` directory, inside **Command** field as shown below:
 
 ![screen](media/screen1.png)
 
-then you decide the refresh, timeout, font and all those things.
+You can then set the refresh, timeout, font and all those things.
 
 ## Demo
 

@@ -17,6 +17,15 @@ Readonly my $VERTICAL_SEPARATOR => '|';
 my $cmd_output;
 my $bin_file = '/usr/local/bin/reminders';
 
+# check if reminder application contains list name
+
+chomp( $cmd_output = capture( $bin_file . ' show-lists' ) );
+
+if ($cmd_output !~ m{$LIST_NAME}ix) {
+    die $LIST_NAME, ' doesn\'t exist, create a new list in Reminder app called ', $LIST_NAME,
+        " or modify this script!\n";
+}
+
 # execute the reminders tool and store the output in a variable
 chomp( $cmd_output = capture( $bin_file . ' show "' . $LIST_NAME . '"' ) );
 
