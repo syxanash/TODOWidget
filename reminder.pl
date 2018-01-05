@@ -6,23 +6,26 @@ use warnings;
 use Readonly;
 use IPC::System::Simple qw{ capture };
 
+our $VERSION = 0.01;
+
 Readonly my $LIST_LENGTH => 10;
 Readonly my $BOX_WIDTH   => 50;
+Readonly my $LIST_NAME   => 'TODO';
 
 my $cmd_output;
 my $bin_file = '/usr/local/bin/reminders';
 
-chomp( $cmd_output = capture( $bin_file . ' show TODO' ) );
+chomp( $cmd_output = capture( $bin_file . ' show "' . $LIST_NAME .'"') );
 
 # print top separator line
 print ',', '-' x $BOX_WIDTH, ',', "\n";
 
 if ( $cmd_output eq q{} ) {
-    my $msg_header = '| [!] TODO list is empty!';
+    my $msg_header = '| [!] ' . $LIST_NAME . ' list is empty!';
     print $msg_header, q{ } x ( $BOX_WIDTH - length $msg_header ), ' |', "\n";
 }
 else {
-    my $msg_header = '| [?] TODO list:';
+    my $msg_header = '| [?] ' . $LIST_NAME . ' list:';
     print $msg_header, q{ } x ( $BOX_WIDTH - length $msg_header ), ' |', "\n";
 
     my @lines = split /\n/x, $cmd_output;
