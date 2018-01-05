@@ -18,20 +18,20 @@ my $cmd_output;
 my $bin_file = '/usr/local/bin/reminders';
 
 # execute the reminders tool and store the output in a variable
-chomp( $cmd_output = capture( $bin_file . ' show "' . $LIST_NAME .'"') );
+chomp( $cmd_output = capture( $bin_file . ' show "' . $LIST_NAME . '"' ) );
 
 # print top separator line
 print ',', $SEPARATOR_LINE x $BOX_WIDTH, ',', "\n";
 
 if ( $cmd_output eq q{} ) {
     my $msg_header = $VERTICAL_SEPARATOR . ' [!] ' . $LIST_NAME . ' list is empty!';
-    print $msg_header, q{ } x ( $BOX_WIDTH - length $msg_header ), ' ',
-        $VERTICAL_SEPARATOR, "\n";
+    print $msg_header, q{ } x ( $BOX_WIDTH - length $msg_header ), q{ },
+      $VERTICAL_SEPARATOR, "\n";
 }
 else {
     my $msg_header = $VERTICAL_SEPARATOR . ' [?] ' . $LIST_NAME . ' list:';
-    print $msg_header, q{ } x ( $BOX_WIDTH - length $msg_header ), ' ',
-        $VERTICAL_SEPARATOR, "\n";
+    print $msg_header, q{ } x ( $BOX_WIDTH - length $msg_header ), q{ },
+      $VERTICAL_SEPARATOR, "\n";
 
     my @lines = split /\n/x, $cmd_output;
     my $is_long = 0;
@@ -52,26 +52,29 @@ else {
                 my $ellipsis = '...';
 
                 $msg_item = substr $msg_item, 0,
-                  -( (length($msg_item) - $BOX_WIDTH) + length($ellipsis) );
+                  -( ( length($msg_item) - $BOX_WIDTH ) + length($ellipsis) );
                 $msg_item .= $ellipsis;
             }
 
             # print remaining space character until we reach the end of the box
-            print $msg_item, q{ } x ( $BOX_WIDTH - length $msg_item ), ' ',
-                $VERTICAL_SEPARATOR, "\n";
+            print $msg_item, q{ } x ( $BOX_WIDTH - length $msg_item ), q{ },
+              $VERTICAL_SEPARATOR, "\n";
         }
     }
 
     # if number of elements in reminder list are too long warn the user
     # of the remaining number of items
     if ($is_long) {
-        my $string_msg = $VERTICAL_SEPARATOR . ' ... (' .
-            ( scalar(@lines) - $LIST_LENGTH ) . ' more)';
+        my $string_msg =
+            $VERTICAL_SEPARATOR
+          . ' ... ('
+          . ( scalar(@lines) - $LIST_LENGTH )
+          . ' more)';
 
-        print $string_msg, q{ } x ( $BOX_WIDTH - length $string_msg ), ' ',
-            $VERTICAL_SEPARATOR, "\n";
+        print $string_msg, q{ } x ( $BOX_WIDTH - length $string_msg ), q{ },
+          $VERTICAL_SEPARATOR, "\n";
     }
 }
 
 # print bottom separator line
-print '`', $SEPARATOR_LINE x $BOX_WIDTH, '`', "\n";
+print '`', $SEPARATOR_LINE x $BOX_WIDTH, '´', "\n";
