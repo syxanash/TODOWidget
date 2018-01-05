@@ -3,58 +3,62 @@
 use strict;
 use warnings;
 
+use Readonly;
 use IPC::System::Simple qw{ capture };
+
+Readonly my $LIST_LENGTH => 10;
+Readonly my $BOX_WIDTH => 50;
 
 my $cmd_output;
 my $bin_file = '/usr/local/bin/reminders';
-my $max_list = 10;
-my $max_width = 45;
 
-chomp($cmd_output = capture($bin_file . " show TODO"));
+chomp($cmd_output = capture($bin_file . ' show TODO'));
 
 # print top separator line
-print ',', '-' x $max_width, ',', "\n";
+print ',', '-' x $BOX_WIDTH, ',', "\n";
 
-if ($cmd_output eq '') {
+if ($cmd_output eq q{}) {
     my $msg_header = '| [!] TODO list is empty!';
-    print $msg_header, ' ' x ($max_width - length($msg_header)), ' |', "\n";
+    print $msg_header, q{ } x ($BOX_WIDTH - length $msg_header), ' |', "\n";
 } else {
     my $msg_header = '| [?] TODO list:';
-    print $msg_header, ' ' x ($max_width - length($msg_header)), ' |', "\n";
-    
-    my @lines = split /\n/, $cmd_output;
+    print $msg_header, q{ } x ($BOX_WIDTH - length $msg_header), ' |', "\n";
+
+    my @lines = split /\n/x, $cmd_output;
     my $is_long = 0;
 
     foreach my $i (0..$#lines) {
-        if ($i >= $max_list) {
+        if ($i >= $LIST_LENGTH) {
             $is_long = 1;
             last;
         }
 
         # remove the number which represents the number items from the output
         # returned by reminders tool
-        if ($lines[$i] =~ m{^\d+\s(.*?)$}i) {
+        if ($lines[$i] =~ m{^\d+\s(.*?)$}ix) {
             my $msg_item = '| - ' . $1;
 
             # when the length is too long add ellipsis
-            if (length($msg_item) > $max_width) {
-                $msg_item = substr $msg_item, 0, -((length($msg_item) - $max_width) + 3);
-                $msg_item .= '...'
+            if (length($msg_item) > $BOX_WIDTH) {
+                my $ellipsis = '...';
+
+                $msg_item = substr $msg_item, 0, -((length $msg_item - $BOX_WIDTH) + length $ellipsis);
+                $msg_item .= $ellipsis;
             }
 
             # print remaining space character until we reach the end of the box
-            print $msg_item, ' ' x ($max_width - length($msg_item)), ' |', "\n";
+            print $msg_item, q{ } x ($BOX_WIDTH - length $msg_item), ' |', "\n";
         }
     }
 
     # if number of elements in reminder list are too long warn the user
     # of the remaining number of items
     if ($is_long) {
-        my $string_msg = '| ... (' . (scalar(@lines) - $max_list) . ' more)';
+        my $string_msg = '| ... (' . (scalar(@lines) - $LIST_LENGTH) . ' more)';
 
-        print $string_msg, ' ' x ($max_width - length($string_msg)), '|', "\n";
+        print $string_msg, q{ } x ($BOX_WIDTH - length $string_msg), ' |', "\n";
     }
 }
 
 # print bottom separator line
-print '`', '-' x $max_width, '`', "\n";
+print '`', '-' x $BOX_WIDTH, '`', "\n";
