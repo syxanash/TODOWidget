@@ -13,6 +13,8 @@ Create a new **Shell** widget using GeekTool and copy the script in `bin/` direc
 
 You can then set the refresh, timeout, font and all those things.
 
+Oh you can also import my configuration downloading the file `TODO.glet`
+
 ## Demo
 
 ![demo](media/demo.gif)
