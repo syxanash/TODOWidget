@@ -54,7 +54,7 @@ else {
 
         # remove the number which represents the number items from the output
         # returned by reminders tool
-        if ( $lines[$i] =~ m{^\d+\s(.*?)$}ix ) {
+        if ( $lines[$i] =~ m{^\d+\:\s(.*?)$}ix ) {
             my $msg_item = $VERTICAL_SEPARATOR . ' - ' . $1;
 
             # when the length is too long add ellipsis
